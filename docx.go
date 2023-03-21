@@ -14,13 +14,13 @@ import (
 	"strings"
 )
 
-//Contains functions to work with data from a zip file
+// ZipData Contains functions to work with data from a zip file
 type ZipData interface {
 	files() []*zip.File
 	close() error
 }
 
-//Type for in memory zip files
+// ZipInMemory Type for in memory zip files
 type ZipInMemory struct {
 	data *zip.Reader
 }
@@ -29,13 +29,13 @@ func (d ZipInMemory) files() []*zip.File {
 	return d.data.File
 }
 
-//Since there is nothing to close for in memory, just nil the data and return nil
+// Since there is nothing to close for in memory, just nil the data and return nil
 func (d ZipInMemory) close() error {
 	d.data = nil
 	return nil
 }
 
-//Type for zip files read from disk
+// ZipFile Type for zip files read from disk
 type ZipFile struct {
 	data *zip.ReadCloser
 }
@@ -194,7 +194,7 @@ func replaceHeaderFooter(headerFooter map[string]string, oldString string, newSt
 	return nil
 }
 
-//ReadDocxFromFS opens a docx file from the file system
+// ReadDocxFromFS opens a docx file from the file system
 func ReadDocxFromFS(file string, fs fs.FS) (*ReplaceDocx, error) {
 	f, err := fs.Open(file)
 	if err != nil {
@@ -380,7 +380,7 @@ func streamToByte(stream io.Reader) []byte {
 	return buf.Bytes()
 }
 
-// To get Word to recognize a tab character, we have to first close off the previous
+// TAB To get Word to recognize a tab character, we have to first close off the previous
 // text element.  This means if there are multiple consecutive tabs, there are empty <w:t></w:t>
 // in between but it still seems to work correctly in the output document, certainly better
 // than other combinations I tried.
